@@ -5,31 +5,28 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#10141b" name="theme-color"/>
-<title>SxS Build Optimizer v7.3</title>
-<meta content="Sword x Staff build comparison and PvP duel estimator using datamined combat formulas and skill data." name="description"/>
+<title>SxS Build Optimizer v7.4</title>
+<meta content="Sword x Staff build comparison and PvP duel estimator using source-backed combat formulas and skill data." name="description"/>
 
 <link href="assets/styles.css" rel="stylesheet"/><link href="manifest.webmanifest" rel="manifest"/></head>
 <body>
 <header class="site-header">
 <div>
 <p class="eyebrow">Sword x Staff · fan-made calculator</p>
-<h1>SxS Build Optimizer <span class="version">v7.3</span></h1>
+<h1>SxS Build Optimizer <span class="version">v7.4</span></h1>
 <p class="subtitle">Build, compare, and optimize your Sword x Staff loadouts. Your inventory, season, class, combat settings, and saved profiles work together across the calculator.</p>
 </div>
 <div class="header-actions">
 <div aria-live="polite" class="save-status" id="saveStatus" role="status" title="Inputs are saved only in this browser on this device."><span aria-hidden="true" class="save-dot"></span><span id="saveStatusText">Local autosave on</span></div>
 <button class="btn primary" id="refreshSourceDataBtn" title="Refresh equipment, NPC, cookbook, relic, and client combat/targeting data from the live source files.">↻ Refresh source data</button>
 <span aria-live="polite" class="save-status" id="sourceRefreshStatus" role="status" title="Last source-data refresh status"><span aria-hidden="true" class="save-dot"></span><span id="sourceRefreshStatusText">Source cache ready</span></span>
-<button class="btn" id="shareBtn">Copy share link</button>
-<button class="btn" id="exportBtn">Export</button>
-<label class="btn file-btn">Import<input accept="application/json" id="importInput" type="file"/></label>
 </div>
 </header>
 <nav aria-label="Calculator categories" class="parent-tabs-v58">
 <button class="parent-tab-v58 active" data-parent="build" type="button">Build</button>
 <button class="parent-tab-v58" data-parent="combat" type="button">Combat</button>
 <button class="parent-tab-v58" data-parent="strategy" type="button">Strategy</button>
-<button class="parent-tab-v58" data-parent="reference" type="button">Reference</button>
+<button class="parent-tab-v58" data-parent="reference" type="button">Resources</button>
 </nav>
 <nav aria-label="Calculator sections" class="tabs section-tabs-v58" id="sectionTabsV58">
 <div class="section-tab-group-v58 active" data-parent-group="build">
@@ -41,7 +38,7 @@
 <button class="tab nav-subtab-v58" data-tab="scenario" type="button">PvE Scenario</button>
 <button class="tab nav-subtab-v58" data-tab="pvp" type="button">PvP Duel</button>
 <button class="tab nav-subtab-v58" data-tab="team" type="button">Team 4v4</button>
-<button class="tab nav-subtab-v58" data-tab="chaosrealm" type="button">Chaos Realm</button>
+<button class="tab nav-subtab-v58" data-tab="chaosrealm" type="button">Chaos Rift</button>
 </div>
 <div class="section-tab-group-v58" data-parent-group="strategy">
 <button class="tab nav-subtab-v58" data-tab="compare" type="button">Compare</button>
@@ -54,6 +51,7 @@
 </div>
 <div class="section-tab-group-v58" data-parent-group="reference">
 <button class="tab nav-subtab-v58" data-tab="reference" type="button">Reference</button>
+<button class="tab nav-subtab-v58" data-tab="friendprofiles" type="button">Friend Profiles</button>
 <button class="tab nav-subtab-v58" data-tab="setlogic" type="button">Set Logic</button>
 <button class="tab nav-subtab-v58" data-tab="source" type="button">Backup &amp; Data</button></div>
 </nav>
@@ -117,7 +115,7 @@
 <article class="card screenshot-import-v58">
 <div class="screenshot-import-head-v58">
 <div><p class="eyebrow">SCREENSHOT IMPORT</p><h3>Populate Current Build from screenshots</h3><p class="hint">Choose one or more in-game screenshots. Recognized text is staged for review, and you can click an unlabeled item icon in the preview to look for a visual match. Existing values stay unchanged until you apply a result.</p></div>
-<label class="btn primary file-btn">Choose screenshots<input accept="image/*" id="buildScreenshotInputV58" multiple="" type="file"/></label>
+<div class="toolbar"><label class="btn primary file-btn">Choose screenshots<input accept="image/*" id="buildScreenshotInputV58" multiple="" type="file"/></label><button class="btn" id="clearBuildScreenshotsV74" type="button">Clear screenshots</button></div>
 </div>
 <div class="screenshot-progress-v58 hidden" id="buildScreenshotProgressV58"><div class="progress"><i id="buildScreenshotProgressBarV58"></i></div><span id="buildScreenshotStatusV58">Preparing OCR…</span></div>
 <div class="screenshot-preview-grid-v58" id="buildScreenshotPreviewV58"></div>
@@ -147,7 +145,7 @@
 <label>PvP DMG RES <span>%</span><input id="myPvpRes" step="0.1" type="number"/></label>
 <label>Block Rate <span>%</span><input id="myBlockRate" step="0.1" type="number"/></label>
 <label>Block Efficiency <span>%</span><input id="myBlockEff" step="1" type="number"/></label>
-<label>Accuracy<input id="myAcc" step="1000" type="number"/></label>
+<label>Accuracy <span>%</span><input id="myAcc" step="0.1" type="number"/></label>
 <label>Effect Hit Rate<input id="myERate" step="500" type="number"/></label>
 <label>Effect RES<input id="myEDodge" step="500" type="number"/></label>
 </div>
@@ -155,7 +153,7 @@
 <div class="element-grid card" id="myElements"></div>
 <div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Equipped Gear</h2></div><p class="section-note">Choose owned pieces from Inventory. Inventory is the source of the item details; the final sheet above remains the source of the displayed stat totals.</p></div>
 <article class="card"><div class="equipped-gear-grid-v59" id="currentGearLoadoutV59"></div><p class="hint" style="margin:10px 0 0">These selections are used for set/proc mechanics and as the baseline when the gear optimizer evaluates replacements.</p></article>
-<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Techniques</h2></div><p class="section-note">Start typing a datamined Technique and press <b>Tab</b> to accept the suggestion. Owned rank values fill automatically. The level belongs to the equipped Technique slot and is set here.</p></div>
+<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Techniques</h2></div><p class="section-note">Start typing a known Technique and press <b>Tab</b> to accept the suggestion. Owned rank values fill automatically. The level belongs to the equipped Technique slot and is set here.</p></div>
 <div class="skill-grid" id="skillRows"></div>
 <div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Charms</h2></div><p class="section-note">Owned Charm ranks fill from Inventory. The level belongs to the equipped Charm slot; a Charm that is not in a slot has no active effect.</p></div>
 <div class="charm-grid" id="charmRows"></div>
@@ -169,7 +167,7 @@
 <label>Rank<input autocomplete="off" id="myFantomonRank"/></label>
 </div>
 <div class="meta-box" id="myFantomonMeta"></div>
-<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
+<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the bundled source data does not expose the magnitude)</span></summary>
 <div class="form-grid compact" style="margin-top:10px">
 <label>Support attack coefficient <span>% ATK</span><input id="myFantomonAttackCoef" min="0" step="0.1" type="number" value="0"/></label>
 <label>Heal <span>% max HP</span><input id="myFantomonHealPct" min="0" step="0.1" type="number" value="0"/></label>
@@ -187,23 +185,23 @@
 <article class="card" style="margin-top:14px">
 <div class="section-head" style="margin-top:0"><div><p class="eyebrow">RELIC COLLECTION</p><h2>Relic contribution</h2></div><span class="v4-badge partial" id="relicCurrentCoverage">JSON SETS</span></div>
 <label class="check"><input id="relicSheetIncludes" type="checkbox"/> My entered sheet already includes these Relic bonuses <span class="hint">(do not add them again)</span></label>
-<p class="hint">When this build is not marked as already containing Relic bonuses, equipped Relic stats from the live JSON and any numeric active set bonuses are automatically added to Compare, PvE, PvP and optimizer calculations.</p>
+<p class="hint">When this build is not marked as already containing Relic bonuses, equipped Relic stats from the source catalog and any numeric active set bonuses are automatically added to Compare, PvE, PvP and optimizer calculations.</p>
 <div class="meta-box" id="relicCurrentSummary"></div>
 <div class="relic-build-totals-v51" id="relicBuildTotalsV51"></div>
 <button class="btn small" id="openRelicsBtnV51" type="button">Manage Relic sets</button>
 </article>
 <div class="section-head technique-head"><div><p class="eyebrow">ACTIVE BOOSTS</p><h2>Equipped Fantomon &amp; Relics</h2></div><p class="section-note">These active loadout choices feed the combat calculations when their source values are available.</p></div>
-<article class="card"><h3>Equipped Fantomon</h3><div class="meta-box" id="currentFantomonSummaryV59"></div></article>
+<article class="card"><div class="item-title"><div><h3>Equipped Fantomons</h3><p class="hint">Slot 1 contributes 100% of its base boost; slots 2–4 contribute 50%. These boosts are informational here because screenshot-imported sheet stats already include them.</p></div></div><div class="fant-formation" id="currentFantomonFormationV74"></div><div class="meta-box" id="currentFantomonSummaryV59" style="margin-top:10px"></div></article>
 <article class="card relic-affinity-loadout-v60" style="margin-top:14px">
 <div class="item-title"><div><h3>Equipped Relics by Affinity</h3><p class="hint">Each affinity has 4 equip slots. Only owned Relics matching that affinity can be selected. Relic names wrap inside each slot so all four slots stay aligned in one row.</p></div><button class="btn small" id="manageEquippedRelicsV59" type="button">Manage Relic collection</button></div>
 <div class="relic-affinity-grid-v60" id="currentRelicAffinityGridV60"></div>
 </article>
 </div>
 <div class="build-subpanel" id="buildRelicsPanel">
-<div class="section-head"><div><p class="eyebrow">RELIC SETS</p><h2>Relic collection &amp; set milestones · live JSON</h2></div><div class="status-line"><span class="status-chip" id="relicOwnedCountV51">0 owned</span><span class="status-chip" id="relicActiveCountV51">0 active bonuses</span></div></div>
+<div class="section-head"><div><p class="eyebrow">RELIC SETS</p><h2>Relic collection &amp; set milestones</h2></div><div class="status-line"><span class="status-chip" id="relicOwnedCountV51">0 owned</span><span class="status-chip" id="relicActiveCountV51">0 active bonuses</span></div></div>
 <article class="card">
 <label class="check"><input id="relicAutoApplyV51" type="checkbox"/> Automatically apply equipped Relic stats and active set bonuses to My Build</label>
-<p class="hint">Relics are grouped automatically by the <code>set</code> ID in the latest Loot &amp; Waifus <code>treasures.json</code>. Check <b>Owned</b>, then set Stars / Awakened and Equipped as needed. Set milestones are evaluated across every Relic in that source group.</p>
+<p class="hint">Check <b>Owned</b>, then set Stars / Awakened and Equipped as needed. Standalone Relics are kept together in one group.</p>
 <div class="relic-active-summary-v51" id="relicActiveSummaryV51"></div>
 </article>
 <div class="relic-overview-v56" id="relicOverviewV56">
@@ -214,7 +212,8 @@
 </div>
 <article class="card relic-controls-v56">
 <div class="relic-controls-grid-v56">
-<label>Find a relic or set<input autocomplete="off" id="relicSetFilterV53" placeholder="Search relic, set, stat, element, or region"/></label>
+<label>Find a relic or set<input autocomplete="off" id="relicSetFilterV53" placeholder="Search relic, set, stat, element, series, or region"/></label>
+<label>Relic series<select id="relicSeriesFilterV74"><option value="">All series</option></select></label>
 <label>Sort sets<select id="relicSortV56"><option value="progress">Closest to complete</option><option value="catalog">Source order</option><option value="name">Set name</option></select></label>
 </div>
 <div class="relic-view-filters-v56" id="relicViewFiltersV56">
@@ -264,8 +263,8 @@
 <div class="section-head"><div><p class="eyebrow">LEGACY RELIC ROWS</p><h2>Legacy / imported Relic rows</h2></div><span class="status-chip" id="relicCatalogStatus">Relic catalog not synced</span></div>
 <article class="card">
 <div class="catalog-search-row"><label>Add relic from catalog<input autocomplete="off" id="relicAddName" placeholder="Start typing a Relic name"/></label><button class="btn primary" id="addRelicInventoryBtn">Add Relic</button></div>
-<div class="toolbar" style="margin-top:10px"><button class="btn" id="syncRelicCatalogBtn">Sync relic catalog</button><label class="btn file-btn">Import relic JSON<input accept="application/json,.json" id="relicCatalogInput" type="file"/></label><button class="btn" id="addManualRelicBtn">+ Manual Relic</button></div>
-<p class="hint">Catalog metadata comes from the public Sword x Staff relic JSON. Use the single Refresh source data button in the header to update it. Equipped Relics automatically use explicit numeric contribution fields when present; otherwise the JSON description number is used as a source-reference contribution and marked derived.</p>
+<div class="toolbar" style="margin-top:10px"><button class="btn" id="syncRelicCatalogBtn">Sync relic catalog</button><label class="btn file-btn">Import relic catalog<input accept="application/json,.json" id="relicCatalogInput" type="file"/></label><button class="btn" id="addManualRelicBtn">+ Manual Relic</button></div>
+<p class="hint">Catalog metadata comes from the public Sword x Staff relic source. Use the single Refresh source data button in the header to update it. Equipped Relics automatically use explicit numeric contribution fields when present; otherwise the source description number is used as a derived contribution.</p>
 </article>
 <article class="card table-wrap" style="margin-top:10px"><table class="inventory-table relic-table"><thead><tr><th>Use</th><th>Displayed</th><th>Relic</th><th>Rarity</th><th>Element</th><th>Region</th><th>Stats / set bonuses</th><th>Exact contribution</th><th></th></tr></thead><tbody id="relicInventoryBody"></tbody></table></article>
 <p class="hint">“Exact contribution” uses the same stat syntax as gear inventory, for example <code>atk:2000, cr:5</code>. Enter only contribution values you have verified in-game or from an exact table.</p>
@@ -274,6 +273,7 @@
 </section>
 <section class="tab-panel" id="tab-scenario">
 <div class="section-head"><div><p class="eyebrow">PVE TARGET</p><h2>Enemy and fight assumptions</h2></div><p class="section-note">These inputs drive the Compare tab.</p></div>
+<article class="card screenshot-import-v58" id="enemyScreenshotImportV74"><div class="screenshot-import-head-v58"><div><p class="eyebrow">SCREENSHOT IMPORT</p><h3>Populate enemy stats from screenshots</h3><p class="hint">Import one or more enemy/stat screenshots. Recognized values are applied only to the PvE enemy fields.</p></div><div class="toolbar"><label class="btn primary file-btn">Choose enemy screenshots<input accept="image/*" id="enemyScreenshotInputV74" multiple type="file"/></label><button class="btn" id="clearEnemyScreenshotsV74" type="button">Clear screenshots</button></div></div><div class="screenshot-progress-v58 hidden" id="enemyScreenshotProgressV74"><div class="progress"><i id="enemyScreenshotProgressBarV74"></i></div><span id="enemyScreenshotStatusV74">Preparing OCR…</span></div><div class="screenshot-preview-grid-v58" id="enemyScreenshotPreviewV74"></div><div class="meta-box hidden" id="enemyScreenshotResultV74"></div><details class="hidden" id="enemyScreenshotTextDetailsV74"><summary>Review detected text</summary><pre class="screenshot-ocr-text-v58" id="enemyScreenshotTextV74"></pre></details></article>
 <div class="form-grid card">
 <label>Enemy rank<input autocomplete="off" id="enemyRank"/></label>
 <label>Enemy level<input id="enemyLevel" min="1" type="number"/></label>
@@ -302,7 +302,7 @@
 <label>Rank<input autocomplete="off" id="pveFantomonRank"/></label>
 </div>
 <div class="meta-box" id="pveFantomonMeta"></div>
-<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
+<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the bundled source data does not expose the magnitude)</span></summary>
 <div class="form-grid compact" style="margin-top:10px">
 <label>Support attack coefficient <span>% ATK</span><input id="pveFantomonAttackCoef" min="0" step="0.1" type="number" value="0"/></label>
 <label>Heal <span>% max HP</span><input id="pveFantomonHealPct" min="0" step="0.1" type="number" value="0"/></label>
@@ -325,20 +325,20 @@
 <label>Average targets hit by AoE<input id="pveAoeTargets" max="100" min="1" step="0.1" type="number" value="3"/></label>
 <label>Large-target multiplier<input id="pveLargeTargetMult" max="5" min="1" step="0.05" type="number" value="1"/></label>
 </div>
-<p class="hint">The calculator detects single-target vs AoE wording from the datamined Technique description. You can use 1 enemy / 1 wave for boss comparisons.</p>
+<p class="hint">The calculator detects single-target vs AoE wording from the Technique description. You can use 1 enemy / 1 wave for boss comparisons.</p>
 </article>
 </section>
 <section class="tab-panel" id="tab-pvp">
-<div class="section-head"><div><p class="eyebrow">MONTE CARLO</p><h2>Unified PvP duel simulation</h2></div><p class="section-note">Uses the datamined turn clock, PvP reductions, elemental/physical layer, and per-hit Crit/Block rolls. It is an estimate, not the server's official win probability.</p></div>
+<div class="section-head"><div><p class="eyebrow">MONTE CARLO</p><h2>Unified PvP duel simulation</h2></div><p class="section-note">Uses the source-backed turn clock, PvP reductions, elemental/physical layer, and per-hit Crit/Block rolls. It is an estimate, not the server's official win probability.</p></div>
 <article class="card screenshot-import-v58" id="pvpScreenshotImportV62">
 <div class="screenshot-import-head-v58">
 <div><p class="eyebrow">OPPONENT SCREENSHOT IMPORT</p><h3>Populate PvP opponent from screenshots</h3><p class="hint">Choose one or more opponent screenshots. Recognized text is staged for review, and you can click an unlabeled item icon in the preview to look for a visual match. Unrecognized fields stay unchanged.</p></div>
-<label class="btn primary file-btn">Choose opponent screenshots<input accept="image/*" id="pvpScreenshotInputV62" multiple="" type="file"/></label>
+<div class="toolbar"><label class="btn primary file-btn">Choose opponent screenshots<input accept="image/*" id="pvpScreenshotInputV62" multiple="" type="file"/></label><button class="btn" id="clearPvpScreenshotsV74" type="button">Clear screenshots</button></div>
 </div>
 <div class="screenshot-progress-v58 hidden" id="pvpScreenshotProgressV62"><div class="progress"><i id="pvpScreenshotProgressBarV62"></i></div><span id="pvpScreenshotStatusV62">Preparing OCR…</span></div>
 <div class="screenshot-preview-grid-v58" id="pvpScreenshotPreviewV62"></div>
 <div class="meta-box hidden" id="pvpScreenshotResultV62"></div><div class="ocr-review-v7 hidden" id="pvpScreenshotReviewV62"><h4>PvP opponent OCR review</h4><p class="hint">Detected fields are staged here with confidence before being applied.</p><div class="ocr-review-table-v7"></div><div class="toolbar"><button class="btn primary ocr-apply-v7">Apply selected</button><button class="btn ocr-dismiss-v7">Dismiss</button></div></div>
-<details class="hidden" id="pvpScreenshotTextDetailsV62"><summary>Review detected text</summary><pre class="screenshot-ocr-text-v58" id="pvpScreenshotTextV62"></pre></details>
+<details class="hidden" id="pvpScreenshotTextDetailsV62"><summary>Review detected text</summary><pre class="screenshot-ocr-text-v58" id="pvpScreenshotTextV62"></pre></details><div class="toolbar" style="margin-top:10px"><label style="min-width:260px">Friend profile<select id="pvpFriendProfileV74"><option value="">Select a friend profile…</option></select></label><button class="btn" id="applyPvpFriendProfileV74" type="button">Use as opponent</button></div>
 </article>
 <div class="pvp-grid">
 <article class="card">
@@ -368,7 +368,7 @@
 <label>PvP DMG RES %<input id="pvpEnemyPvpRes" step="0.1" type="number"/></label>
 <label>Block Rate %<input id="pvpEnemyBlockRate" step="0.1" type="number"/></label>
 <label>Block Efficiency %<input id="pvpEnemyBlockEff" step="1" type="number"/></label>
-<label>Accuracy<input id="pvpEnemyAcc" step="1000" type="number"/></label>
+<label>Accuracy <span>%</span><input id="pvpEnemyAcc" step="0.1" type="number"/></label>
 </div>
 <details><summary>Opponent affinity / Aegis</summary><div class="element-grid mini" id="pvpEnemyElements"></div></details>
 </article>
@@ -390,7 +390,7 @@
 <label>Rank<input autocomplete="off" id="pvpEnemyFantomonRank"/></label>
 </div>
 <div class="meta-box" id="pvpEnemyFantomonMeta"></div>
-<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
+<details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the bundled source data does not expose the magnitude)</span></summary>
 <div class="form-grid compact" style="margin-top:10px">
 <label>Support attack coefficient <span>% ATK</span><input id="pvpEnemyFantomonAttackCoef" min="0" step="0.1" type="number" value="0"/></label>
 <label>Heal <span>% max HP</span><input id="pvpEnemyFantomonHealPct" min="0" step="0.1" type="number" value="0"/></label>
@@ -429,7 +429,7 @@
 <div id="batchPvpResult" style="margin-top:12px"></div>
 </article>
 <div class="note warn">
-<b>Unified engine:</b> PvP now shares the same timed-status, shield, healing, Fantomon, Charm and set-proc engine used by PvE. Exact effects are simulated from datamined values; effects whose magnitude is absent from the committed snapshot use the optional override fields above or remain unvalued. Grid movement, full server target-selection AI and unknown server-only behavior are still not invented.
+<b>Unified engine:</b> PvP now shares the same timed-status, shield, healing, Fantomon, Charm and set-proc engine used by PvE. Exact effects are simulated from source values; effects whose magnitude is absent from the committed snapshot use the optional override fields above or remain unvalued. Grid movement, full server target-selection AI and unknown server-only behavior are still not invented.
   </div>
 </section>
 <section class="tab-panel" id="tab-optimize">
@@ -472,7 +472,7 @@
 <article class="card"><p class="eyebrow">FANTOMONS</p><h3>Fantomon optimizer</h3><p class="hint">Searches owned Fantomons using the Current Build slot level, Inventory rarity/Rank, Adult/Baby state, and each Fantomon’s modeled support effects. Build fit is prioritized; rarity is used as a secondary preference when options are close.</p><div class="form-grid two"><label>Objective<input autocomplete="off" id="fantObjective" value="PvE total damage"/></label><label>PvP simulations<input id="fantPvpRuns" max="5000" min="50" type="number" value="300"/></label></div><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runFantOptimizerBtn">Compare owned Fantomons</button><button class="btn" id="applyFantOptimizerV7" disabled>Apply recommended</button><button class="btn" id="cancelFantV7" disabled>Cancel</button><span class="status-chip" id="fantWorkerStatusV7">Idle</span></div><div id="fantOptimizerResult" style="margin-top:12px"></div></article>
 <article class="card"><p class="eyebrow">ENHANCEMENT</p><h3>Gear enhancement calculator</h3><div class="form-grid two"><label>Gear<input autocomplete="off" id="enhGearName"/></label><label>Secondary<input autocomplete="off" id="enhSecondary"/></label><label>Upgrade +N<input id="enhUpgrade" max="250" min="0" type="number" value="0"/></label><label>Season Enhancement<input id="enhSeason" max="100" min="0" type="number" value="0"/></label></div><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="calcEnhBtn">Calculate</button><button class="btn" id="enhAddInventoryBtn">Add to inventory</button></div><div class="meta-box" id="enhResult" style="margin-top:10px"></div></article>
 </div>
-<article class="card" style="margin-top:14px"><p class="eyebrow">COST EFFICIENCY</p><h3>Upgrade value per resource</h3><div class="form-grid compact"><label>Stat-point resource cost<input id="costStat" min="0.0001" type="number" value="1"/></label><label>Technique rank-up cost<input id="costTechnique" min="0.0001" type="number" value="1"/></label><label>Gear swap / enhancement cost<input id="costGear" min="0.0001" type="number" value="1"/></label><label>Fantomon upgrade cost<input id="costFant" min="0.0001" type="number" value="1"/></label></div><button class="btn primary" id="runCostUpgradeBtn" style="margin-top:10px">Rank by gain / cost</button><div id="costUpgradeResult" style="margin-top:12px"></div><p class="hint">The datamine page does not expose every material-cost row. Enter costs in any consistent unit (coins, shards, dollars, or a personal effort score); ranking uses the same unit across candidates.</p></article>
+<article class="card" style="margin-top:14px"><p class="eyebrow">COST EFFICIENCY</p><h3>Upgrade value per resource</h3><div class="form-grid compact"><label>Stat-point resource cost<input id="costStat" min="0.0001" type="number" value="1"/></label><label>Technique rank-up cost<input id="costTechnique" min="0.0001" type="number" value="1"/></label><label>Gear swap / enhancement cost<input id="costGear" min="0.0001" type="number" value="1"/></label><label>Fantomon upgrade cost<input id="costFant" min="0.0001" type="number" value="1"/></label></div><button class="btn primary" id="runCostUpgradeBtn" style="margin-top:10px">Rank by gain / cost</button><div id="costUpgradeResult" style="margin-top:12px"></div><p class="hint">The source page does not expose every material-cost row. Enter costs in any consistent unit (coins, shards, dollars, or a personal effort score); ranking uses the same unit across candidates.</p></article>
 </section>
 <section class="tab-panel" id="tab-analysis">
 <div class="analysis-grid">
@@ -584,28 +584,32 @@ secondary uses the same shape on its own curve.</code></pre><p><span class="sour
 <article class="card reference-card"><h3>Season Enhancement anchors</h3><div class="table-wrap"><table><thead><tr><th>Level</th><th>Factor</th></tr></thead><tbody><tr><td>0</td><td>0%</td></tr><tr><td>1</td><td>36.9%</td></tr><tr><td>5</td><td>63.6%</td></tr><tr><td>10</td><td>79.5%</td></tr><tr><td>20</td><td>116.1%</td></tr><tr><td>30</td><td>164.0%</td></tr><tr><td>50</td><td>298.5%</td></tr><tr><td>100</td><td>1072.0%</td></tr></tbody></table></div><p><span class="source-state partial">SOURCE ANCHORS</span></p></article>
 <article class="card reference-card"><h3>Food permanent decay</h3><div class="table-wrap"><table><thead><tr><th>Meals</th><th>Efficiency</th></tr></thead><tbody><tr><td>1–10</td><td>100%</td></tr><tr><td>11–30</td><td>50%</td></tr><tr><td>31–50</td><td>20%</td></tr><tr><td>51+</td><td>5%</td></tr></tbody></table></div><pre><code>effectiveMeals = first10 + .5×next20 + .2×next20 + .05×rest</code></pre></article>
 <article class="card reference-card"><h3>Fantomon collection factors</h3><div class="table-wrap"><table><thead><tr><th>Position</th><th>Stats</th></tr></thead><tbody><tr><td>Main formation</td><td>100%</td></tr><tr><td>Formation slots 2–4</td><td>50% each</td></tr><tr><td>Owned / idle collection</td><td>20% each</td></tr></tbody></table></div><p><span class="source-state exact">EXACT</span></p></article>
-<article class="card reference-card"><h3>Relic catalog</h3><p><code>https://lootandwaifus.com/api/swordxstaff/treasures.json</code> is the primary Relic source. Refresh source data fetches that URL with cache bypass, rebuilds sets from each Relic's set ID, and updates Relic/stat metadata while preserving your ownership and upgrade selections.</p><p><span class="source-state exact">LIVE JSON CATALOG</span> · <code>stats</code> and <code>set_bonus</code> are used directly. Explicit numeric contribution fields are treated as source values; otherwise <code>description</code> is auto-applied to equipped Relics as a <span class="source-state derived">DERIVED JSON REFERENCE</span> value because the source warns that its scaling is reference-only.</p></article>
+<article class="card reference-card"><h3>Relic catalog</h3><p>Loot &amp; Waifus is the primary Relic catalog. Refresh source data updates Relic/set/stat metadata while preserving your ownership and upgrade selections.</p><p><span class="source-state exact">LIVE CATALOG</span> · explicit numeric contributions are treated as source values; description-derived contributions remain clearly marked as derived.</p></article>
 <article class="card reference-card span2"><h3>Combat-mechanics exactness</h3><div class="coverage-list" id="referenceCoverageV5"></div></article>
 </div>
 <article class="card" style="margin-top:14px"><h3>Local data</h3><p>Inputs, inventories, cached catalogs and profiles are saved in this browser. Workspace Export/Import is the portable backup. No calculator backend is required.</p><button class="btn danger" id="resetBtn">Clear saved data &amp; reset</button></article>
 <p class="credit-line">Data references: HungMCLe · Sefhi / Loot &amp; Waifus · fan-made calculator, unaffiliated with the game publisher.</p>
 </section>
+<section class="tab-panel" id="tab-friendprofiles">
+<div class="section-head"><div><p class="eyebrow">RESOURCES</p><h2>Friend profiles</h2></div><p class="section-note">Upload profiles for other players, keep them locally, and reuse them as opponents or teammates.</p></div>
+<article class="card"><div class="item-title"><div><h3>Imported friend profiles</h3><p class="hint">Supports calculator workspace/profile files. Friend profiles are separate from your own Character Profiles.</p></div><label class="btn primary file-btn">Upload friend profiles<input accept="application/json,.json" id="friendProfileInputV74" multiple type="file"/></label></div><div class="saved-list" id="friendProfilesListV74" style="margin-top:14px"></div></article>
+</section>
 <section class="tab-panel" id="tab-setlogic">
-<div class="section-head"><div><p class="eyebrow">REFERENCE</p><h2>Set Logic &amp; Datamine Catalog</h2></div><p class="section-note">Source/configuration data lives here rather than in the normal optimizer workflow. Edit a rule only when you have a verified correction; the combat and optimization tools consume the effective values automatically.</p></div>
+<div class="section-head"><div><p class="eyebrow">RESOURCES</p><h2>Set Logic &amp; Source Catalog</h2></div><p class="section-note">Source/configuration data lives here rather than in the normal optimizer workflow. Edit a rule only when you have a verified correction; the combat and optimization tools consume the effective values automatically.</p></div>
 <article class="card">
-<div class="item-title"><div><h3>Datamine catalog</h3><p class="hint">Use the single <b>Refresh source data</b> button in the header to update equipment, NPC, food, relic and combat-source data. This panel only reports the active catalog.</p></div><button aria-hidden="true" hidden="" id="syncDatamineBtn" type="button"></button></div>
+<div class="item-title"><div><h3>Source catalog</h3><p class="hint">Use the single <b>Refresh source data</b> button in the header to update equipment, NPC, food, relic and combat-source data. This panel only reports the active catalog.</p></div><button aria-hidden="true" hidden="" id="syncDatamineBtn" type="button"></button></div>
 <div class="status-line"><span class="status-chip" id="catalogStatus">Bundled catalog</span><span class="status-chip"><span class="catalog-count" id="catalogGearCount">0</span> gear variants</span><span class="status-chip"><span class="catalog-count" id="catalogNpcCount">0</span> target presets</span></div>
 </article>
 <div class="section-head"><div><p class="eyebrow">SET RULES</p><h2>Static set logic</h2></div><button class="btn small" id="addSetRuleBtn">+ Add rule</button></div>
 <article class="card table-wrap"><table><thead><tr><th>Set</th><th>Pieces</th><th>Stat / element</th><th>Mode</th><th>Value</th><th>Trigger</th><th>Chance %</th><th>Source</th><th></th></tr></thead><tbody id="setRulesBody"></tbody></table><p class="hint">Source-backed rules are loaded automatically. Editing a row creates the effective local value used by the calculator; custom proc rules can use proc-damage, heal-hp, shield-hp, shield-def, dmg-boost or dmg-reduce. Workspace export preserves corrections.</p></article>
 </section>
 <section class="tab-panel" id="tab-source">
-<div class="section-head"><div><p class="eyebrow">REFERENCE</p><h2>Backup &amp; Data</h2></div><p class="section-note">Back up your builds, move them between devices, or refresh calculator data.</p></div>
+<div class="section-head"><div><p class="eyebrow">RESOURCES</p><h2>Backup &amp; Data</h2></div><p class="section-note">Back up your builds, move them between devices, or refresh calculator data.</p></div>
 <div class="v2-grid">
-<article class="card"><p class="eyebrow">PORTABLE WORKSPACE</p><h3>Cross-device / cloud-file sync</h3><p class="workspace-note">Exports the active build, profiles, inventory, set rules, and cached datamine catalog. Put the JSON file in iCloud Drive, Dropbox, OneDrive or Google Drive to move the same workspace between devices.</p><div class="toolbar"><button class="btn primary" id="exportWorkspaceBtn">Export workspace</button><label class="file-btn btn">Import workspace<input accept="application/json,.json" id="importWorkspaceInput" type="file"/></label><button class="btn" id="copyWorkspaceLinkBtn">Copy full workspace link</button></div><div class="toolbar" style="margin-top:8px"><button class="btn" id="chooseSyncFileBtn">Choose sync file</button><button class="btn" id="saveSyncFileBtn">Save to sync file</button><button class="btn" id="loadSyncFileBtn">Load sync file</button></div><div class="meta-box" id="workspaceStatus" style="margin-top:10px"></div></article>
+<article class="card"><p class="eyebrow">PORTABLE WORKSPACE</p><h3>Cross-device / cloud-file sync</h3><p class="workspace-note">Exports the active build, profiles, inventory, set rules, and cached source catalog. Put the JSON file in iCloud Drive, Dropbox, OneDrive or Google Drive to move the same workspace between devices.</p><div class="toolbar"><button class="btn primary" id="exportWorkspaceBtn">Export workspace</button><label class="file-btn btn">Import workspace<input accept="application/json,.json" id="importWorkspaceInput" type="file"/></label><button class="btn" id="copyWorkspaceLinkBtn">Copy full workspace link</button></div><div class="toolbar" style="margin-top:8px"><button class="btn" id="chooseSyncFileBtn">Choose sync file</button><button class="btn" id="saveSyncFileBtn">Save to sync file</button><button class="btn" id="loadSyncFileBtn">Load sync file</button></div><div class="meta-box" id="workspaceStatus" style="margin-top:10px"></div></article>
 <article class="card"><p class="eyebrow">UPDATES</p><h3>Downloaded-copy update check</h3><label>Version manifest URL<input id="updateManifestUrl" placeholder="https://example.com/sxs-version.json"/></label><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="checkUpdateBtn">Check for update</button></div><div class="meta-box" id="updateStatus" style="margin-top:10px"></div><p class="hint">A local HTML file cannot discover a newer calculator by itself. When you eventually host a tiny version manifest, paste its URL once; the setting is saved locally.</p></article>
 </div>
-<article class="card" style="margin-top:14px"><p class="eyebrow">OFFLINE DATAMINE</p><h3>Import complete generated catalog</h3><p class="hint">The parsed full gear catalog and set descriptions are cached locally and included in workspace exports. The header's single Refresh source data button remains the normal way to update online sources.</p><div class="toolbar"><label class="file-btn btn">Import equipment.html<input accept="text/html,.html" id="equipmentHtmlInput" type="file"/></label><button class="btn" id="exportCatalogBtn">Export cached catalog</button></div><div class="meta-box" id="offlineCatalogStatus" style="margin-top:10px"></div></article>
+<article class="card" style="margin-top:14px"><p class="eyebrow">OFFLINE SOURCE DATA</p><h3>Import complete generated catalog</h3><p class="hint">The parsed full gear catalog and set descriptions are cached locally and included in workspace exports. The header's single Refresh source data button remains the normal way to update online sources.</p><div class="toolbar"><label class="file-btn btn">Import equipment.html<input accept="text/html,.html" id="equipmentHtmlInput" type="file"/></label><button class="btn" id="exportCatalogBtn">Export cached catalog</button></div><div class="meta-box" id="offlineCatalogStatus" style="margin-top:10px"></div></article>
 </section>
 <section class="tab-panel" id="tab-team">
 <div class="intro-callout"><strong>4v4 simulator:</strong> uses each Technique's known range, target rules, movement, and priority behavior to replay team fights. When the game does not expose a targeting detail, the simulator avoids pretending it is known.</div>
@@ -627,24 +631,24 @@ secondary uses the same shape on its own curve.</code></pre><p><span class="sour
 <div>
 <article class="card"><p class="eyebrow">TEAM A</p><div class="team-slot-grid" id="teamASlots"></div></article>
 <article class="card" style="margin-top:14px"><p class="eyebrow">TEAM B</p><div class="team-slot-grid" id="teamBSlots"></div></article>
-<details class="advanced technical-details-v71" style="margin-top:14px"><summary>Advanced targeting details</summary><div style="margin-top:10px"><article class="card" style="margin-top:14px"><p class="eyebrow">EC MECHANICS</p><h3>Range, scopes, child skills &amp; event rules</h3><p class="hint">Import the datamine's generated <code>duel.json</code>, or a compact SxS EC-rule JSON. v3 extracts only the fields it needs and caches them in the workspace.</p><div class="toolbar"><label class="btn file-btn">Import duel / EC JSON<input accept="application/json,.json" id="ecImportInput" type="file"/></label><button class="btn danger" id="clearEcBtn">Clear EC cache</button></div><div class="meta-box" id="ecStatus" style="margin-top:10px"></div><details><summary>Supported rule actions</summary><p class="hint">damage, heal, shield, status, remove-status, cooldown, move, child-skill and grid hazard. Trigger depth is capped at 4; ConditionCount, per-round limits and chance are supported in compact rules.</p></details></article>
+<details class="advanced technical-details-v71" style="margin-top:14px"><summary>Advanced targeting details</summary><div style="margin-top:10px"><article class="card" style="margin-top:14px"><p class="eyebrow">EC MECHANICS</p><h3>Range, scopes, child skills &amp; event rules</h3><p class="hint">Import a compatible combat-rule file. The calculator extracts only the targeting fields it needs and caches them in the workspace.</p><div class="toolbar"><label class="btn file-btn">Import combat rules<input accept="application/json,.json" id="ecImportInput" type="file"/></label><button class="btn danger" id="clearEcBtn">Clear EC cache</button></div><div class="meta-box" id="ecStatus" style="margin-top:10px"></div><details><summary>Supported rule actions</summary><p class="hint">damage, heal, shield, status, remove-status, cooldown, move, child-skill and grid hazard. Trigger depth is capped at 4; ConditionCount, per-round limits and chance are supported in compact rules.</p></details></article>
 <article class="card" style="margin-top:14px"><p class="eyebrow">TARGETING SOURCE</p><p class="source-limit">Per-skill targeting, range/scope and AI priority lists are taken from the client EC data when available. The true server-default priority chain, global <code>BattleAISetting</code> scoring weights, idle-path choice, and exact server tiebreak behavior are not exposed; only those pieces use documented fallback behavior.</p></article>
 <article class="card" id="targetTraceV7" style="margin-top:14px"><div class="section-head" style="margin-top:0"><div><p class="eyebrow">AI TRACE</p><h3>Targeting decision trace</h3></div><label class="check"><input id="targetTraceEnabledV7" type="checkbox"/> Record targeting trace</label></div><p class="hint">When enabled, the next replay shows the client AI priority chain and the criterion that decided each movement/target choice. Server-only fallbacks are labeled.</p><div class="battle-log" id="targetTraceResultV7"></div></article></div></details></div>
 </div>
 </section>
 <section class="tab-panel" id="tab-chaosrealm">
-<div class="intro-callout"><strong>Chaos Realm:</strong> optimize one primary damage dealer plus 1–3 support players for maximum single-boss damage. Support class legality follows the promotion lineage: an advanced class can use Techniques and Charms owned by every earlier class in its lineage.</div>
+<div class="intro-callout"><strong>Chaos Rift:</strong> optimize one primary damage dealer plus 1–3 support players for maximum single-boss damage. Support class legality follows the promotion lineage: an advanced class can use Techniques and Charms owned by every earlier class in its lineage.</div>
 <div class="section-head"><div><p class="eyebrow">PRIMARY ATTACKER</p><h2>Damage dealer</h2></div><p class="section-note">The primary attacker uses Current Build and the current PvE boss target.</p></div>
 <article class="card"><div class="chaos-primary-summary-v60" id="chaosPrimarySummaryV60"></div></article>
 <div class="section-head"><div><p class="eyebrow">SUPPORT TEAM</p><h2>Choose the best support classes &amp; loadouts</h2></div><p class="section-note">The optimizer prioritizes source-visible team buffs, enemy debuffs, cooldown support and offensive Fantomon effects.</p></div>
 <article class="card">
 <div class="form-grid compact">
-<label>Support players<select id="chaosSupportCountV60"><option value="1">1 support</option><option value="2">2 supports</option><option selected="" value="3">3 supports</option></select></label>
+<label>Support players<select id="chaosSupportCountV60"><option value="1">1 support</option><option value="2">2 supports</option><option selected="" value="3">3 supports</option></select></label><label>Support 1 source<select id="chaosSupportSource0V74"><option value="">Auto optimize</option></select></label><label>Support 2 source<select id="chaosSupportSource1V74"><option value="">Auto optimize</option></select></label><label>Support 3 source<select id="chaosSupportSource2V74"><option value="">Auto optimize</option></select></label>
 <label>Candidate classes / slot<input id="chaosClassCapV60" max="26" min="4" type="number" value="12"/></label>
 <label class="check field-check"><input id="chaosOwnedOnlyV60" type="checkbox"/> Use owned Skills/Fantomons only</label>
 <label class="check field-check"><input checked="" id="chaosDistinctClassesV60" type="checkbox"/> Require different support classes</label>
 </div>
-<button class="btn primary big" id="runChaosRealmV60" style="margin-top:12px">Optimize Chaos Realm team</button>
+<button class="btn primary big" id="runChaosRealmV60" style="margin-top:12px">Optimize Chaos Rift team</button>
 <div class="meta-box" id="chaosRealmStatusV60" style="margin-top:12px"></div>
 </article>
 <div class="chaos-support-grid-v60" id="chaosSupportCardsV60" style="margin-top:14px"></div>
@@ -678,14 +682,13 @@ secondary uses the same shape on its own curve.</code></pre><p><span class="sour
 </article>
 </section>
 <section class="tab-panel" id="tab-account">
-<div class="intro-callout"><strong>Roster optimizer:</strong> builds four characters together, shares your available inventory between them, and looks for the strongest overall team.</div>
-<div class="section-head"><div><p class="eyebrow">ROSTER</p><h2>Choose four characters</h2></div><p class="section-note">Save character profiles under Profiles first for a real four-character account roster.</p></div>
+<div class="intro-callout"><strong>Roster optimizer:</strong> compares four general class builds at the same level and rank as your Current Build. It does not assume your account owns multiple characters.</div>
+<div class="section-head"><div><p class="eyebrow">ROSTER</p><h2>Choose four classes</h2></div><p class="section-note">Each slot uses a general class-legal loadout at your current character level and rank.</p></div>
 <div class="v2-grid" id="accountRoster"></div>
 <article class="card" style="margin-top:14px">
 <div class="form-grid compact"><label>Objective<select id="accountObjective"><option>Team PvP win rate</option><option>Team PvE damage</option><option>Balanced</option><option>Survivability</option><option>Support</option></select></label><div class="hidden-advanced-fields-v71"><label>Search breadth<input id="accountBeam" max="100" min="5" type="number" value="30"/></label><label>Options checked per character<input id="accountCandidateCap" max="40" min="3" type="number" value="12"/></label><label>Final PvP simulations<input id="accountPvpRuns" max="1000" min="20" type="number" value="120"/></label></div></div>
-<div class="toolbar" style="margin-top:10px"><label class="check"><input checked="" id="accountUseGear" type="checkbox"/> Reassign gear</label><label class="check"><input checked="" id="accountUseTech" type="checkbox"/> Optimize Techniques</label><label class="check"><input checked="" id="accountUseCharm" type="checkbox"/> Optimize Charms</label><label class="check"><input checked="" id="accountUseFant" type="checkbox"/> Optimize Fantomons</label><label class="check"><input id="accountEnforceSkillCopies" type="checkbox"/> Techniques/Charms are one-copy resources</label></div>
-<div class="note compact">Saved character sheets stay unchanged while the optimizer tests different owned items around them. Review the recommended loadout before applying it.</div>
-<div class="toolbar"><button class="btn primary big" id="runAccountOptimizer">Optimize all four characters</button><button class="btn" id="cancelRosterV7" disabled>Cancel</button><span class="status-chip" id="rosterWorkerStatusV7">Idle</span></div>
+<div class="note compact">General class builds use the same level/rank baseline as Current Build and class-legal Techniques/Charms. They are hypothetical class comparisons, not additional characters on your account.</div>
+<div class="toolbar"><button class="btn primary big" id="runAccountOptimizer">Optimize four class builds</button><button class="btn" id="cancelRosterV7" disabled>Cancel</button><span class="status-chip" id="rosterWorkerStatusV7">Idle</span></div>
 <div class="full-search-status" id="accountSearchStatus"></div><div id="accountResult"></div>
 </article>
 </section>

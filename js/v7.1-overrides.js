@@ -20,7 +20,7 @@ function applyTechnique(app,scope,item,slot){
  name.value=item.name||'';if(rank&&!rank.value)rank.value=app?.DM?.rankLabels?.[String(r)]||String(r);if(level&&!level.value)level.value=scope==='my'?(byId('myLevel')?.value||100):(byId('pvpEnemyLevel')?.value||100);
  const element=byId(`${p}Element${i}`),coefEl=byId(`${p}Coef${i}`),hits=byId(`${p}Hits${i}`),cd=byId(`${p}Cd${i}`),ready=byId(`${p}Ready${i}`),badge=byId(`${p}Badge${i}`),meta=byId(`${p}Meta${i}`),on=byId(`${p}On${i}`);
  if(element)element.value=item.element||'Physical';if(coefEl&&coef!=null)coefEl.value=coef;if(hits)hits.value=Math.max(1,+item.hits||1);if(cd&&Number.isFinite(+row.CD))cd.value=+row.CD;if(ready)ready.checked=!(+row.CD>0);if(on)on.checked=!!item.name;
- if(badge){badge.textContent='Datamine';badge.className='source-badge exact'}if(meta)meta.textContent=`${item.cls||''}${item.id?` · #${item.id}`:''}`.replace(/^ · /,'');fire(name);return true;
+ if(badge){badge.textContent='Source';badge.className='source-badge exact'}if(meta)meta.textContent=`${item.cls||''}${item.id?` · #${item.id}`:''}`.replace(/^ · /,'');fire(name);return true;
 }
 function applyCharm(app,scope,item,slot){
  const p=scope==='my'?'ch':'pech',i=Math.max(0,Math.min(3,+slot||0)),name=byId(`${p}Name${i}`);if(!name)return false;
@@ -47,8 +47,6 @@ function simplifyUserPages(){
  document.querySelectorAll('#tab-reference article.card').forEach(card=>{if(/drop\s*\/\s*reroll probability/i.test(card.textContent))card.remove()});
  const coverage=byId('referenceCoverageV5');const cleanCoverage=()=>coverage?.querySelectorAll('.coverage-row').forEach(r=>{if(/drop rate/i.test(r.textContent))r.remove()});cleanCoverage();if(coverage)new MutationObserver(cleanCoverage).observe(coverage,{childList:true,subtree:true});
  ['fullBeamWidth','fullFinalSims','fullGearCapV7','relicLabBeamV59','relicLabCandidatesV59','accountBeam','accountCandidateCap','accountPvpRuns'].forEach(hideLabel);
- const chaosIds=['chaosTurnsV7','chaosLoadoutCapV7','chaosBeamV7','chaosUseTimelineV7'];const chaosNodes=[...new Set(chaosIds.map(id=>byId(id)?.closest('label')).filter(Boolean))];const chaosRoot=byId('tab-chaosrealm');if(chaosRoot&&chaosNodes.length)detailsWrap(chaosRoot,chaosNodes,'Advanced optimizer settings');
- const team=byId('tab-team');if(team){const cards=[...team.querySelectorAll('article.card')].filter(c=>/EC MECHANICS|TARGETING SOURCE|target trace|BattleAISetting|AI priority/i.test(c.textContent));detailsWrap(team,cards,'Advanced targeting details')}
  const pvp=byId('tab-pvp');if(pvp){const cards=[...pvp.querySelectorAll('article.card')].filter(c=>/Unified engine:|server target-selection AI/i.test(c.textContent));detailsWrap(pvp,cards,'Advanced simulation notes')}
  document.querySelectorAll('#tab-build .relic-table th').forEach(th=>{if(/Exact contribution/i.test(th.textContent))th.textContent='Stat override'});
  document.querySelectorAll('#tab-build p.hint').forEach(p=>{if(/Exact contribution/i.test(p.textContent))p.textContent='Optional: enter a verified stat override for a Relic when the source does not provide an exact value.';else if(/Catalog metadata comes from/i.test(p.textContent))p.textContent='Relic details update from the public catalog when you use Refresh source data.'});

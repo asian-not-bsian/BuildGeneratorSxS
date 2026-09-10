@@ -1,5 +1,5 @@
 {
-  "version": "7.3.0",
+  "version": "7.4.0",
   "url": "./",
-  "notes": "Fantomon inventory now separates rarity (Mythic/Legendary/Epic) from leveling rank (Epic/Legendary/Mythic/Divine/Immortal). Skill Inventory no longer shows Source. Fantomon optimization evaluates modeled support against the active/candidate player build and uses rarity as a secondary preference when results are close."
+  "notes": "Adds K/M screenshot parsing, enemy screenshot import, Friend Profiles, four Fantomon slots, relic-series filtering, unified Chaos Rift search settings, general class-build roster optimization, percentage Accuracy display, and scoring/relic/UI fixes."
 }

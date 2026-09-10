@@ -8,8 +8,10 @@ const map={
  chaosrealm:'./modules/chaos-realm.js',
  team:'./modules/team.js',
  build:'./modules/screenshots.js',
+ scenario:'./modules/screenshots.js',
  pvp:'./modules/screenshots.js',
  reference:'./modules/reference.js',
+ friendprofiles:'./modules/reference.js',
  setlogic:'./modules/reference.js',
  source:'./modules/reference.js'
 };

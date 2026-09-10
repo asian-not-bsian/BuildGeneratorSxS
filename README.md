@@ -20,13 +20,13 @@ A fan-made **Sword x Staff** build, combat, inventory, and team optimizer design
 
 ## What v7.1 added
 
-- Modular deployment structure: HTML, CSS, datamine data, feature modules, workers, and tests are separate files.
+- Modular deployment structure: HTML, CSS, source data, feature modules, workers, and tests are separate files.
 - Inventory/eligibility engine shared across optimizers: owned Skills/Fantomons, class lineage, gear season, relic affinity, and slot legality use one rules layer.
 - Current-season gear enforcement in Current Build and gear/full-build/roster optimization.
 - Inventory-bound Technique and Charm optimization using the saved rank for each owned skill and the level of the equipped slot being evaluated.
-- Worker-assisted Gear, Technique, Charm, Relic, Full Build, and Chaos Realm searches, with progress and cancellation where applicable.
+- Worker-assisted Gear, Technique, Charm, Relic, Full Build, and Chaos Rift searches, with progress and cancellation where applicable.
 - Cooperative batching for the exact PvP and Team 4v4 combat engines so long simulations yield to the browser instead of locking the UI.
-- Chaos Realm support-team timeline optimizer for 1–3 supports, including inherited class-lineage skills, Techniques, Charms, Fantomons, cooldowns, durations, support effects, and boss debuffs. Values that are not exposed by source data remain marked DERIVED rather than being presented as exact.
+- Chaos Rift support-team timeline optimizer for 1–3 supports, including inherited class-lineage skills, Techniques, Charms, Fantomons, cooldowns, durations, support effects, and boss debuffs. Values that are not exposed by source data remain marked DERIVED rather than being presented as exact.
 - Breakpoint-aware recommendation explanations, including SPD action breakpoints and Crit saturation.
 - Share links include the active build plus equipped current-season gear and relic loadout.
 - Screenshot analysis for Current Build and PvP opponents combines text recognition with optional icon matching. Technique, Charm, and Fantomon reference images are loaded only after you click an icon in a screenshot; normal calculator pages do not preload or display the game art.
@@ -37,7 +37,7 @@ A fan-made **Sword x Staff** build, combat, inventory, and team optimizer design
 
 ### v7.1 screenshot matching
 
-The screenshot review can identify an unlabeled icon after OCR finishes: choose Technique, Charm, Fantomon, Relic, or Gear, then click the icon in the screenshot preview. Technique/Charm and Fantomon candidates use the public datamine image paths. Relic/Gear candidates are included only when the active source data exposes an explicit image or icon ID; the app does not guess an image mapping. Matches are never applied automatically.
+The screenshot review can identify an unlabeled icon after OCR finishes: choose Technique, Charm, Fantomon, Relic, or Gear, then click the icon in the screenshot preview. Technique/Charm and Fantomon candidates use the public source image paths. Relic/Gear candidates are included only when the active source data exposes an explicit image or icon ID; the app does not guess an image mapping. Matches are never applied automatically.
 
 To keep startup fast, reference images are fetched and downsampled only when this feature is used, then cached in memory for the rest of the page session.
 
@@ -79,12 +79,12 @@ No Jekyll build is required; `.nojekyll` is included.
 
 The calculator intentionally distinguishes source-backed values from inference:
 
-- **EXACT** — directly represented by loaded/datamined data or a verified formula.
+- **EXACT** — directly represented by loaded source data or a verified formula.
 - **DERIVED** — inferred from source text/relationships or reduced into a calculator model.
 - **OVERRIDE** — a local user correction replaces a source value.
 - **MISSING** — the source does not expose enough information; the calculator does not invent an exact value.
 
-Static set rules and the Datamine Catalog are editable under **Reference → Set Logic**. Drop-rate and acquisition-planning pages are temporarily disabled until a reliable rate source is available.
+Static set rules and the Source Catalog are editable under **Reference → Set Logic**. Drop-rate and acquisition-planning pages are temporarily disabled until a reliable rate source is available.
 
 ## Important limitations
 

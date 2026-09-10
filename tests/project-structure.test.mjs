@@ -30,7 +30,7 @@ test('local script, stylesheet and manifest references exist',()=>{
   }
 });
 
-test('main navigation keeps Chaos Realm under Combat and removes unverified farming pages',()=>{
+test('main navigation keeps Chaos Rift under Combat and removes unverified farming pages',()=>{
   assert.match(html,/data-parent-group="combat"[\s\S]*?data-tab="chaosrealm"/);
   assert.doesNotMatch(html,/data-tab="acquisition"/);
   assert.doesNotMatch(html,/data-tab="droprates"/);
