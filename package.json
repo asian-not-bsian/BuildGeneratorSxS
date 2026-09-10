@@ -1,0 +1,10 @@
+{
+  "name": "buildgeneratorsxs",
+  "private": true,
+  "version": "7.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check js/app.js && node --check js/module-loader.js && node --check js/v7.1-overrides.js && node --check js/modules/screenshots.js && node --check js/workers/optimizer-worker.js && node --check sw.js && npm test"
+  }
+}
