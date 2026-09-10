@@ -1,5 +1,29 @@
 # Changelog
 
+## v7.3.0
+
+### Inventory clarity
+- Removed the Source column from the Technique & Charm Inventory list.
+- Split Fantomon progression into separate **Rarity** and **Rank** columns. Rarity uses Mythic / Legendary / Epic; Rank uses Epic / Legendary / Mythic / Divine / Immortal.
+- Kept Fantomon levels out of the roster. Equipped Fantomon level remains slot-derived, and unequipped Fantomons use the lowest equipped Fantomon level.
+- Migrates older Fantomon roster entries by removing legacy per-entry level/use fields and normalizing rarity/rank values.
+
+### Fantomon optimization
+- Added build-fit scoring that compares each Fantomon's support behavior with the player's active Techniques, cooldown profile, damage/support focus, SPD breakpoints, and PvP/survival needs.
+- Modeled combat/support outcome remains the primary signal. For close outcomes, build fit is considered next and rarity is preferred Mythic → Legendary → Epic.
+- Full-build optimization now applies the same Fantomon build-fit/rarity tie-breaking against each candidate build.
+- Optimizer results show Fantomon rarity, rank, slot-derived level, Adult/Baby state, and the main build-fit reasons.
+
+## v7.2.0
+
+### Slot-derived levels
+- Removed Level from Technique and Charm Inventory. Owned entries now store ownership and rank; level comes from the equipped Technique/Charm slot.
+- Unequipped Techniques and Charms are inactive and contribute no active effect. Inventory now shows whether an owned skill is equipped without duplicating its level.
+- Removed per-Fantomon Level from the Fantomon roster. The Current Build Fantomon slot level is authoritative for the equipped Fantomon.
+- Unequipped Fantomons are modeled at the lowest equipped Fantomon level. With the current single equipped Fantomon slot, this resolves to the Current Build Fantomon slot level.
+- Screenshot matching and Inventory synchronization preserve the existing slot level rather than overwriting it from Inventory metadata.
+- Technique, Charm, Fantomon, and full-build optimizers now derive candidate levels from the slots being evaluated.
+
 ## v7.1.0
 
 ### Screenshot analysis

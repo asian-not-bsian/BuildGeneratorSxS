@@ -1,5 +1,5 @@
 {
-  "version": "7.1.0",
+  "version": "7.3.0",
   "url": "./",
-  "notes": "Screenshot icon matching for Techniques, Charms and Fantomons with source-backed image candidates; unverified drop-rate/acquisition pages removed; everyday pages simplified while advanced source details remain under Reference."
+  "notes": "Fantomon inventory now separates rarity (Mythic/Legendary/Epic) from leveling rank (Epic/Legendary/Mythic/Divine/Immortal). Skill Inventory no longer shows Source. Fantomon optimization evaluates modeled support against the active/candidate player build and uses rarity as a secondary preference when results are close."
 }

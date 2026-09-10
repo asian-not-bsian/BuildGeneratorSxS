@@ -1,5 +1,5 @@
 'use strict';
-const CACHE='sxs-build-generator-v7.1.0';
+const CACHE='sxs-build-generator-v7.3.0';
 const SHELL=[
   './','./index.html','./assets/styles.css','./data/datamine.js','./js/app.js','./js/module-loader.js','./js/v7.1-overrides.js',
   './js/workers/optimizer-worker.js','./js/lib/formulas.mjs',

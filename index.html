@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#10141b" name="theme-color"/>
-<title>SxS Build Optimizer v7.1</title>
+<title>SxS Build Optimizer v7.3</title>
 <meta content="Sword x Staff build comparison and PvP duel estimator using datamined combat formulas and skill data." name="description"/>
 
 <link href="assets/styles.css" rel="stylesheet"/><link href="manifest.webmanifest" rel="manifest"/></head>
@@ -13,7 +13,7 @@
 <header class="site-header">
 <div>
 <p class="eyebrow">Sword x Staff · fan-made calculator</p>
-<h1>SxS Build Optimizer <span class="version">v7.1</span></h1>
+<h1>SxS Build Optimizer <span class="version">v7.3</span></h1>
 <p class="subtitle">Build, compare, and optimize your Sword x Staff loadouts. Your inventory, season, class, combat settings, and saved profiles work together across the calculator.</p>
 </div>
 <div class="header-actions">
@@ -155,18 +155,18 @@
 <div class="element-grid card" id="myElements"></div>
 <div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Equipped Gear</h2></div><p class="section-note">Choose owned pieces from Inventory. Inventory is the source of the item details; the final sheet above remains the source of the displayed stat totals.</p></div>
 <article class="card"><div class="equipped-gear-grid-v59" id="currentGearLoadoutV59"></div><p class="hint" style="margin:10px 0 0">These selections are used for set/proc mechanics and as the baseline when the gear optimizer evaluates replacements.</p></article>
-<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Techniques</h2></div><p class="section-note">Start typing a datamined Technique and press <b>Tab</b> to accept the suggestion. Known rank values fill automatically but remain editable.</p></div>
+<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Techniques</h2></div><p class="section-note">Start typing a datamined Technique and press <b>Tab</b> to accept the suggestion. Owned rank values fill automatically. The level belongs to the equipped Technique slot and is set here.</p></div>
 <div class="skill-grid" id="skillRows"></div>
-<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Charms</h2></div><p class="section-note">Charm names/ranks are stored for the build. Static passive stats should be reflected in the final sheet. Supported active procs, counters, shields and sustain effects are used by the PvP Duel tab.</p></div>
+<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Charms</h2></div><p class="section-note">Owned Charm ranks fill from Inventory. The level belongs to the equipped Charm slot; a Charm that is not in a slot has no active effect.</p></div>
 <div class="charm-grid" id="charmRows"></div>
-<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Equipped Fantomon</h2></div><p class="section-note">Selecting an owned Fantomon automatically pulls its level, Adult status and support rank from Inventory. Supported combat boosts feed the simulators.</p></div>
+<div class="section-head technique-head"><div><p class="eyebrow">LOADOUT</p><h2>Equipped Fantomon</h2></div><p class="section-note">Selecting an owned Fantomon pulls its rarity, Adult status, and Rank from Inventory. Set its equipped level with the Slot level field below; roster Fantomons do not store separate levels.</p></div>
 <article class="card fantomon-card">
 <div class="form-grid compact">
 <input hidden="" id="myFantomonEnabled" type="checkbox"/>
 <label>Fantomon<input autocomplete="off" id="myFantomonName"/></label>
-<label>Level<input id="myFantomonLevel" max="500" min="1" type="number"/></label>
+<label>Slot level<input data-fantomon-slot-level="current" id="myFantomonLevel" max="500" min="1" type="number"/></label>
 <label>Phase<input autocomplete="off" id="myFantomonPhase"/></label>
-<label>Support skill rank<input autocomplete="off" id="myFantomonRank"/></label>
+<label>Rank<input autocomplete="off" id="myFantomonRank"/></label>
 </div>
 <div class="meta-box" id="myFantomonMeta"></div>
 <details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
@@ -248,7 +248,7 @@
 <div class="skill-filter-v54" id="skillClassFiltersV54"></div>
 <p class="hint">The default view follows the class selected in Current Build. Selecting a class shows that class plus every earlier class in its promotion lineage; for example, <b>Dominator</b> shows Mage, Sage, Arcanist, and Dominator Techniques and Charms. If Current Build has no class selected, all skills are shown. Click any class button to pin that lineage, or click <b>Use Current Build class</b> to return to automatic filtering.</p>
 </article>
-<article class="card table-wrap" style="margin-top:10px"><table class="inventory-table skill-inventory-table-v54"><thead><tr><th>Owned</th><th>Type</th><th>Skill</th><th>Class</th><th>Rank</th><th>Level</th><th>Source</th></tr></thead><tbody id="skillInventoryBodyV54"></tbody></table></article>
+<article class="card table-wrap" style="margin-top:10px"><table class="inventory-table skill-inventory-table-v54"><thead><tr><th>Owned</th><th>Type</th><th>Skill</th><th>Class</th><th>Rank</th></tr></thead><tbody id="skillInventoryBodyV54"></tbody></table></article>
 </div>
 <div class="inventory-section">
 <div class="section-head"><div><p class="eyebrow">OWNED ITEMS</p><h2>Gear inventory</h2></div><div class="inline-actions"><button class="btn small" id="addInventoryBtn">+ Add item</button><button class="btn small" id="addCurrentToInventoryBtn">Add current comparison item</button><button class="btn small" id="addAltToInventoryBtn">Add alternative item</button></div></div>
@@ -257,8 +257,8 @@
 </div>
 <div class="inventory-section">
 <div class="section-head"><div><p class="eyebrow">OWNED FANTOMONS</p><h2>Fantomon roster</h2></div><div class="inline-actions"><button class="btn small" id="addFantInventoryBtn">+ Add Fantomon</button><button class="btn small" id="seedFantInventoryBtn">Add current Fantomon</button></div></div>
-<article class="card table-wrap"><table class="inventory-table"><thead><tr><th>Fantomon</th><th>Level</th><th>Adult?</th><th>Support rank</th><th>Role / support</th><th></th></tr></thead><tbody id="fantInventoryBody"></tbody></table></article>
-<p class="hint">When this roster contains usable Fantomons, Fantomon search and formation tools use the owned roster instead of assuming every Fantomon is available.</p>
+<article class="card table-wrap"><table class="inventory-table"><thead><tr><th>Fantomon</th><th>Rarity</th><th>Adult?</th><th>Rank</th><th>Role / support</th><th></th></tr></thead><tbody id="fantInventoryBody"></tbody></table></article>
+<p class="hint">Fantomon levels are not stored in the roster. Rarity tracks the Fantomon itself (Mythic, Legendary, or Epic), while Rank tracks its leveling progression (Epic → Legendary → Mythic → Divine → Immortal). The equipped Fantomon uses the Current Build Fantomon slot level; unequipped Fantomons are modeled at the lowest equipped Fantomon level. Higher rarity is preferred when two Fantomons provide similar support for the build.</p>
 </div>
 <div class="inventory-section hidden" id="legacyRelicInventoryV5">
 <div class="section-head"><div><p class="eyebrow">LEGACY RELIC ROWS</p><h2>Legacy / imported Relic rows</h2></div><span class="status-chip" id="relicCatalogStatus">Relic catalog not synced</span></div>
@@ -299,7 +299,7 @@
 <label>Fantomon<input autocomplete="off" id="pveFantomonName"/></label>
 <label>Level<input id="pveFantomonLevel" max="500" min="1" type="number"/></label>
 <label>Phase<input autocomplete="off" id="pveFantomonPhase"/></label>
-<label>Support skill rank<input autocomplete="off" id="pveFantomonRank"/></label>
+<label>Rank<input autocomplete="off" id="pveFantomonRank"/></label>
 </div>
 <div class="meta-box" id="pveFantomonMeta"></div>
 <details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
@@ -385,9 +385,9 @@
 <div class="form-grid compact">
 <input hidden="" id="pvpEnemyFantomonEnabled" type="checkbox"/>
 <label>Fantomon<input autocomplete="off" id="pvpEnemyFantomonName"/></label>
-<label>Level<input id="pvpEnemyFantomonLevel" max="500" min="1" type="number"/></label>
+<label>Slot level<input id="pvpEnemyFantomonLevel" max="500" min="1" type="number"/></label>
 <label>Phase<input autocomplete="off" id="pvpEnemyFantomonPhase"/></label>
-<label>Support skill rank<input autocomplete="off" id="pvpEnemyFantomonRank"/></label>
+<label>Rank<input autocomplete="off" id="pvpEnemyFantomonRank"/></label>
 </div>
 <div class="meta-box" id="pvpEnemyFantomonMeta"></div>
 <details class="fantomon-advanced"><summary>Advanced mechanics overrides <span class="hint">(only used when the committed datamine does not expose the magnitude)</span></summary>
@@ -445,8 +445,8 @@
 <div class="optimizer-result" id="gearOptimizerResult" style="margin-top:16px"></div>
 </article>
 <div class="two-col" style="margin-top:14px">
-<article class="card"><h3>Technique optimizer</h3><p class="hint">Uses only Techniques marked <b>Owned</b> in Inventory, at their saved rank and level, and enforces the selected class lineage. The search scores their actual datamined coefficients/effects.</p><textarea aria-hidden="true" class="pool hidden" id="techPool"></textarea><button aria-hidden="true" class="hidden" id="seedTechPoolBtn" type="button"></button><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runTechOptimizerBtn">Optimize owned Techniques</button><button class="btn" disabled="" id="cancelTechV7">Cancel</button><span class="status-chip" id="techWorkerStatusV7">Idle</span></div><div id="techOptimizerResult" style="margin-top:12px"></div></article>
-<article class="card"><h3>Charm optimizer</h3><p class="hint">Uses only Charms marked <b>Owned</b> in Inventory, at their saved rank and level, and enforces class lineage. Datamined passive/trigger rows available to the combat engine are evaluated at those owned values.</p><textarea aria-hidden="true" class="pool hidden" id="charmPool"></textarea><button aria-hidden="true" class="hidden" id="seedCharmPoolBtn" type="button"></button><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runCharmOptimizerBtn">Optimize owned Charms</button><button class="btn" disabled="" id="cancelCharmV7">Cancel</button><span class="status-chip" id="charmWorkerStatusV7">Idle</span></div><div id="charmOptimizerResult" style="margin-top:12px"></div></article>
+<article class="card"><h3>Technique optimizer</h3><p class="hint">Uses only Techniques marked <b>Owned</b> in Inventory and enforces the selected class lineage. Inventory stores rank only; each equipped Technique uses the level of the slot it occupies, and unequipped Techniques have no active effect.</p><textarea aria-hidden="true" class="pool hidden" id="techPool"></textarea><button aria-hidden="true" class="hidden" id="seedTechPoolBtn" type="button"></button><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runTechOptimizerBtn">Optimize owned Techniques</button><button class="btn" disabled="" id="cancelTechV7">Cancel</button><span class="status-chip" id="techWorkerStatusV7">Idle</span></div><div id="techOptimizerResult" style="margin-top:12px"></div></article>
+<article class="card"><h3>Charm optimizer</h3><p class="hint">Uses only Charms marked <b>Owned</b> in Inventory and enforces class lineage. Inventory stores rank only; each equipped Charm uses the level of the slot it occupies, and unequipped Charms have no active effect.</p><textarea aria-hidden="true" class="pool hidden" id="charmPool"></textarea><button aria-hidden="true" class="hidden" id="seedCharmPoolBtn" type="button"></button><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runCharmOptimizerBtn">Optimize owned Charms</button><button class="btn" disabled="" id="cancelCharmV7">Cancel</button><span class="status-chip" id="charmWorkerStatusV7">Idle</span></div><div id="charmOptimizerResult" style="margin-top:12px"></div></article>
 </div>
 <div class="section-head"><div><p class="eyebrow">NEXT INVESTMENT</p><h2>What should I upgrade next?</h2></div></div>
 <article class="card"><button class="btn primary" id="runUpgradeNextBtn">Rank upgrade opportunities</button><div id="upgradeNextResult" style="margin-top:14px"></div></article>
@@ -469,7 +469,7 @@
 <div class="full-search-status" id="fullSearchStatus"></div><div id="fullOptimizerResult"></div>
 </article>
 <div class="v2-grid" style="margin-top:14px">
-<article class="card"><p class="eyebrow">FANTOMONS</p><h3>Fantomon optimizer</h3><p class="hint">Searches owned Fantomons from Inventory using their saved level, Adult/Baby state, support rank and any configured effect overrides.</p><div class="form-grid two"><label>Objective<input autocomplete="off" id="fantObjective" value="PvE total damage"/></label><label>PvP simulations<input id="fantPvpRuns" max="5000" min="50" type="number" value="300"/></label></div><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runFantOptimizerBtn">Compare owned Fantomons</button><button class="btn" id="applyFantOptimizerV7" disabled>Apply recommended</button><button class="btn" id="cancelFantV7" disabled>Cancel</button><span class="status-chip" id="fantWorkerStatusV7">Idle</span></div><div id="fantOptimizerResult" style="margin-top:12px"></div></article>
+<article class="card"><p class="eyebrow">FANTOMONS</p><h3>Fantomon optimizer</h3><p class="hint">Searches owned Fantomons using the Current Build slot level, Inventory rarity/Rank, Adult/Baby state, and each Fantomon’s modeled support effects. Build fit is prioritized; rarity is used as a secondary preference when options are close.</p><div class="form-grid two"><label>Objective<input autocomplete="off" id="fantObjective" value="PvE total damage"/></label><label>PvP simulations<input id="fantPvpRuns" max="5000" min="50" type="number" value="300"/></label></div><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runFantOptimizerBtn">Compare owned Fantomons</button><button class="btn" id="applyFantOptimizerV7" disabled>Apply recommended</button><button class="btn" id="cancelFantV7" disabled>Cancel</button><span class="status-chip" id="fantWorkerStatusV7">Idle</span></div><div id="fantOptimizerResult" style="margin-top:12px"></div></article>
 <article class="card"><p class="eyebrow">ENHANCEMENT</p><h3>Gear enhancement calculator</h3><div class="form-grid two"><label>Gear<input autocomplete="off" id="enhGearName"/></label><label>Secondary<input autocomplete="off" id="enhSecondary"/></label><label>Upgrade +N<input id="enhUpgrade" max="250" min="0" type="number" value="0"/></label><label>Season Enhancement<input id="enhSeason" max="100" min="0" type="number" value="0"/></label></div><div class="toolbar" style="margin-top:10px"><button class="btn primary" id="calcEnhBtn">Calculate</button><button class="btn" id="enhAddInventoryBtn">Add to inventory</button></div><div class="meta-box" id="enhResult" style="margin-top:10px"></div></article>
 </div>
 <article class="card" style="margin-top:14px"><p class="eyebrow">COST EFFICIENCY</p><h3>Upgrade value per resource</h3><div class="form-grid compact"><label>Stat-point resource cost<input id="costStat" min="0.0001" type="number" value="1"/></label><label>Technique rank-up cost<input id="costTechnique" min="0.0001" type="number" value="1"/></label><label>Gear swap / enhancement cost<input id="costGear" min="0.0001" type="number" value="1"/></label><label>Fantomon upgrade cost<input id="costFant" min="0.0001" type="number" value="1"/></label></div><button class="btn primary" id="runCostUpgradeBtn" style="margin-top:10px">Rank by gain / cost</button><div id="costUpgradeResult" style="margin-top:12px"></div><p class="hint">The datamine page does not expose every material-cost row. Enter costs in any consistent unit (coins, shards, dollars, or a personal effort score); ranking uses the same unit across candidates.</p></article>

@@ -2,12 +2,28 @@
 
 A fan-made **Sword x Staff** build, combat, inventory, and team optimizer designed to run as a static GitHub Pages site.
 
-## What v7.1 adds
+## What v7.3 adds
+
+- Removed the Source column from Technique & Charm Inventory. The user-facing list now focuses on ownership, type, skill, class, and rank.
+- Fantomon Inventory now separates **Rarity** (Mythic, Legendary, Epic) from leveling **Rank** (Epic, Legendary, Mythic, Divine, Immortal).
+- Fantomon roster entries still store no level. Equipped Fantomons use their Current Build slot level; unequipped Fantomons use the lowest equipped Fantomon level.
+- Fantomon optimization evaluates each owned Fantomon's modeled support effects against the player's active Techniques/stats and the candidate full build. Clear modeled performance wins; when options are close, build fit is considered and rarity is preferred Mythic → Legendary → Epic.
+- Full-build Fantomon selection uses the same build-fit and rarity tie-breaking instead of ranking Fantomons only by a generic score.
+
+## What v7.2 added
+
+- Technique and Charm Inventory stores ownership and rank only. Levels are properties of the four equipped Technique/Charm slots in Current Build.
+- Unequipped Techniques and Charms have no active effect. Optimizers assign candidate skills to equipped slots before scoring them.
+- Fantomon Inventory no longer stores or displays a per-Fantomon level. The Current Build Fantomon slot level is authoritative.
+- Unequipped Fantomons are modeled at the lowest equipped Fantomon level; with the current single equipped Fantomon slot, that is the Current Build Fantomon slot level.
+- Screenshot identification and Inventory synchronization preserve slot levels instead of replacing them with Inventory values.
+
+## What v7.1 added
 
 - Modular deployment structure: HTML, CSS, datamine data, feature modules, workers, and tests are separate files.
 - Inventory/eligibility engine shared across optimizers: owned Skills/Fantomons, class lineage, gear season, relic affinity, and slot legality use one rules layer.
 - Current-season gear enforcement in Current Build and gear/full-build/roster optimization.
-- Inventory-bound Technique and Charm optimization using the saved rank and level for each owned skill.
+- Inventory-bound Technique and Charm optimization using the saved rank for each owned skill and the level of the equipped slot being evaluated.
 - Worker-assisted Gear, Technique, Charm, Relic, Full Build, and Chaos Realm searches, with progress and cancellation where applicable.
 - Cooperative batching for the exact PvP and Team 4v4 combat engines so long simulations yield to the browser instead of locking the UI.
 - Chaos Realm support-team timeline optimizer for 1–3 supports, including inherited class-lineage skills, Techniques, Charms, Fantomons, cooldowns, durations, support effects, and boss debuffs. Values that are not exposed by source data remain marked DERIVED rather than being presented as exact.

@@ -30,7 +30,7 @@ function applyFantomon(scope,item){
  const p=scope==='my'?'myFantomon':'pvpEnemyFantomon',name=byId(`${p}Name`);if(!name)return false;name.value=item.name||'';const enabled=byId(`${p}Enabled`),level=byId(`${p}Level`),phase=byId(`${p}Phase`),rank=byId(`${p}Rank`),meta=byId(`${p}Meta`);if(enabled)enabled.checked=!!item.name;if(level&&!level.value)level.value=scope==='my'?(byId('myLevel')?.value||100):(byId('pvpEnemyLevel')?.value||100);if(phase&&!phase.value)phase.value=item.adult===false?'Baby':'Adult';if(rank&&!rank.value)rank.value='Mythic';if(meta)meta.textContent=item.id?`#${item.id}`:'';fire(name);return true;
 }
 function installScreenshotApi(app){
- if(!app)return;app.version='7.1';app.screenshotCatalog=scope=>screenshotCatalog(app,scope);app.applyScreenshotImageMatch=(scope,kind,item,slot=0)=>kind==='Technique'?applyTechnique(app,scope,item,slot):kind==='Charm'?applyCharm(app,scope,item,slot):kind==='Fantomon'?applyFantomon(scope,item):false;
+ if(!app)return;app.screenshotCatalog=scope=>screenshotCatalog(app,scope);app.applyScreenshotImageMatch=(scope,kind,item,slot=0)=>kind==='Technique'?applyTechnique(app,scope,item,slot):kind==='Charm'?applyCharm(app,scope,item,slot):kind==='Fantomon'?applyFantomon(scope,item):false;
 }
 function removeClosestFeature(el,keywords){
  if(!el)return;let n=el;while(n&&n!==document.body){const head=n.querySelector?.('.section-head,h2,h3,.eyebrow');const txt=(head?.textContent||n.firstElementChild?.textContent||'').trim();if(n.id==='tab-progression')break;if(keywords.some(k=>txt.toLowerCase().includes(k))&&(n.matches('article,.card,.section-block,.progression-section,.v4-section,section')||n.parentElement?.id==='tab-progression')){n.remove();return}n=n.parentElement}
