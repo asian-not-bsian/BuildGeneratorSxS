@@ -1,5 +1,5 @@
 {
-  "version": "7.4.0",
+  "version": "7.4.3",
   "url": "./",
-  "notes": "Adds K/M screenshot parsing, enemy screenshot import, Friend Profiles, four Fantomon slots, relic-series filtering, unified Chaos Rift search settings, general class-build roster optimization, percentage Accuracy display, and scoring/relic/UI fixes."
+  "notes": "Adds NPC companion friendship inventory and a source-backed milestone upgrade strategy using datamined Lv 50/Lv 100 stat grants, while retaining prior screenshot, support Fantomon, and relic-series fixes."
 }

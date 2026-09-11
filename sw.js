@@ -1,7 +1,7 @@
 'use strict';
-const CACHE='sxs-build-generator-v7.4.0';
+const CACHE='sxs-build-generator-v7.4.3';
 const SHELL=[
-  './','./index.html','./assets/styles.css','./data/datamine.js','./js/app.js','./js/module-loader.js','./js/v7.1-overrides.js',
+  './','./index.html','./assets/styles.css','./data/datamine.js','./data/companions.js','./js/app.js','./js/module-loader.js','./js/v7.1-overrides.js',
   './js/workers/optimizer-worker.js','./js/lib/formulas.mjs',
   './js/modules/optimize.js','./js/modules/chaos-realm.js','./js/modules/team.js','./js/modules/screenshots.js','./js/modules/reference.js',
   './manifest.webmanifest'

@@ -56,18 +56,25 @@ test('Chaos Rift advanced search settings are unified and loadout breadth is ope
   assert.match(worker,/fixed/);
 });
 
-test('relic behavior follows series filter, one standalone group, and explicit percent units',()=>{
+test('relic behavior follows item-level series filter, one standalone group, and explicit percent units',()=>{
   assert.match(html,/id="relicSeriesFilterV74"/);
+  assert.match(app,/function relicMatchesSeriesV741/);
+  assert.match(app,/relicRowsHtmlV57=function\(set\)[\s\S]*?filter\(name=>relicMatchesSeriesV741/);
+  assert.match(app,/visibleRelicEntriesV57=function\(\)[\s\S]*?some\(name=>relicMatchesSeriesV741/);
   assert.match(app,/standalone:all/);
   assert.match(app,/Standalone \/ no set/);
   assert.match(app,/function relicUnitV55\([\s\S]*?includes\('%'\)[\s\S]*?return'flat'/);
   assert.doesNotMatch(html,/Relics are grouped automatically by the set ID/);
 });
 
-test('four Fantomon slots and general class-build roster optimizer are enabled',()=>{
+test('four support Fantomon slots are separate from the battle-active Fantomon',()=>{
   assert.match(html,/id="currentFantomonFormationV74"/);
+  assert.match(html,/>Support Fantomons</);
+  assert.match(app,/extras\.v7\.supportFantomons/);
   assert.match(app,/100% base boost/);
   assert.match(app,/50% base boost/);
+  assert.match(app,/separate from the battle-active Fantomon/);
+  assert.doesNotMatch(app,/extras\.v7\.activeFantomons\[i\]=val/);
   assert.match(app,/generalClassStateV74/);
   assert.match(html,/Optimize four class builds/);
 });
@@ -77,4 +84,13 @@ test('skill ranks use named labels and support\/survivability use active scoring
   assert.match(app,/supportMetricsV2/);
   assert.match(app,/survivabilityMetrics/);
   assert.match(app,/expectedSkillDamage/);
+});
+
+
+test('v7.4.2 rounds scaled screenshot ratings and hardens parent tabs',()=>{
+  assert.match(app,/return scaled\?Math\.round\(v\):v/);
+  assert.match(app,/Aff'\+e\)\)\$\(prefix\+'Aff'\+e\)\.value=Math\.round/);
+  assert.match(app,/function hardenParentNavigationV742/);
+  const css=fs.readFileSync(path.join(root,'assets/styles.css'),'utf8');
+  assert.match(css,/\.parent-tabs-v58\{z-index:200;pointer-events:auto/);
 });

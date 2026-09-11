@@ -1,5 +1,9 @@
 # BuildGeneratorSxS
 
+## v7.4.1 behavior note
+
+The four **Support Fantomon** slots are separate from the single battle-active Fantomon. Slot 1 represents 100% of its base boost and slots 2–4 represent 50%; imported sheet stats already include these boosts, so the selections are not added again. The Relic Inventory **Relic series** filter now hides individual relics outside the selected series, including within mixed groups.
+
 A fan-made **Sword x Staff** build, combat, inventory, and team optimizer designed to run as a static GitHub Pages site.
 
 ## What v7.3 adds
@@ -51,6 +55,13 @@ python -m http.server 8000
 
 Then open `http://localhost:8000`.
 
+
+### Companion / NPC friendship inventory
+
+Inventory includes a **Companions** section built from the datamined NPC friendship reference. Track unlocked companions and their friendship levels, then use Strategy → Optimize to rank the next Lv 50 / Lv 100 friendship milestone for combat, speed, survivability, support, PvP, or travel goals. Permanent friendship bonuses are assumed to already be present in an imported/displayed character sheet and are not layered onto the sheet again.
+
+The committed datamine publishes exact cumulative Lv 50 and Lv 100 grants but not every intermediate `level_prop_npc_friendship` row. For that reason the companion strategy reports **milestone value density** rather than pretending to know an exact per-level stat gain.
+
 ## Tests
 
 Node 20+ is sufficient.
@@ -98,6 +109,7 @@ The exact PvP and Team 4v4 simulators currently use cooperative main-thread batc
 index.html
 assets/styles.css
 data/datamine.js
+data/companions.js           # NPC friendship milestone reference
 js/app.js                  # legacy-compatible calculator core
 js/module-loader.js        # lazy feature-module loader
 js/modules/                # feature entry points

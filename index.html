@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#10141b" name="theme-color"/>
-<title>SxS Build Optimizer v7.4</title>
+<title>SxS Build Optimizer v7.4.3</title>
 <meta content="Sword x Staff build comparison and PvP duel estimator using source-backed combat formulas and skill data." name="description"/>
 
 <link href="assets/styles.css" rel="stylesheet"/><link href="manifest.webmanifest" rel="manifest"/></head>
@@ -13,7 +13,7 @@
 <header class="site-header">
 <div>
 <p class="eyebrow">Sword x Staff · fan-made calculator</p>
-<h1>SxS Build Optimizer <span class="version">v7.4</span></h1>
+<h1>SxS Build Optimizer <span class="version">v7.4.3</span></h1>
 <p class="subtitle">Build, compare, and optimize your Sword x Staff loadouts. Your inventory, season, class, combat settings, and saved profiles work together across the calculator.</p>
 </div>
 <div class="header-actions">
@@ -191,7 +191,7 @@
 <button class="btn small" id="openRelicsBtnV51" type="button">Manage Relic sets</button>
 </article>
 <div class="section-head technique-head"><div><p class="eyebrow">ACTIVE BOOSTS</p><h2>Equipped Fantomon &amp; Relics</h2></div><p class="section-note">These active loadout choices feed the combat calculations when their source values are available.</p></div>
-<article class="card"><div class="item-title"><div><h3>Equipped Fantomons</h3><p class="hint">Slot 1 contributes 100% of its base boost; slots 2–4 contribute 50%. These boosts are informational here because screenshot-imported sheet stats already include them.</p></div></div><div class="fant-formation" id="currentFantomonFormationV74"></div><div class="meta-box" id="currentFantomonSummaryV59" style="margin-top:10px"></div></article>
+<article class="card"><div class="item-title"><div><h3>Support Fantomons</h3><p class="hint">Equip up to 4 Fantomons for support separately from the single Fantomon active in battle. Support slot 1 contributes 100% of its base boost; slots 2–4 contribute 50%. These boosts are informational here because screenshot-imported sheet stats already include them.</p></div></div><div class="fant-formation" id="currentFantomonFormationV74"></div><div class="meta-box" id="currentFantomonSummaryV59" style="margin-top:10px"></div></article>
 <article class="card relic-affinity-loadout-v60" style="margin-top:14px">
 <div class="item-title"><div><h3>Equipped Relics by Affinity</h3><p class="hint">Each affinity has 4 equip slots. Only owned Relics matching that affinity can be selected. Relic names wrap inside each slot so all four slots stay aligned in one row.</p></div><button class="btn small" id="manageEquippedRelicsV59" type="button">Manage Relic collection</button></div>
 <div class="relic-affinity-grid-v60" id="currentRelicAffinityGridV60"></div>
@@ -213,7 +213,7 @@
 <article class="card relic-controls-v56">
 <div class="relic-controls-grid-v56">
 <label>Find a relic or set<input autocomplete="off" id="relicSetFilterV53" placeholder="Search relic, set, stat, element, series, or region"/></label>
-<label>Relic series<select id="relicSeriesFilterV74"><option value="">All series</option></select></label>
+<label>Relic series<select id="relicSeriesFilterV74"><option value="">All series</option></select><span class="hint">Shows only relics in the selected series, even inside mixed set groups.</span></label>
 <label>Sort sets<select id="relicSortV56"><option value="progress">Closest to complete</option><option value="catalog">Source order</option><option value="name">Set name</option></select></label>
 </div>
 <div class="relic-view-filters-v56" id="relicViewFiltersV56">
@@ -230,12 +230,13 @@
 <div class="note compact" style="margin-top:14px"><b>Relic stats:</b> known equipped effects are applied automatically. If a value is missing from the available game data, the calculator leaves it unvalued unless you enter a verified adjustment.</div>
 </div>
 <div class="build-subpanel" id="buildInventoryPanel">
-<div class="inventory-summary"><div><span>Gear pieces</span><b id="invGearCountV5">0</b></div><div><span>Owned Fantomons</span><b id="invFantCountV5">0</b></div><div><span>Owned Relics</span><b id="invRelicCountV5">0</b></div><div><span>Owned Skills</span><b id="invSkillCountV54">0</b></div></div>
+<div class="inventory-summary"><div><span>Gear pieces</span><b id="invGearCountV5">0</b></div><div><span>Owned Fantomons</span><b id="invFantCountV5">0</b></div><div><span>Owned Relics</span><b id="invRelicCountV5">0</b></div><div><span>Owned Skills</span><b id="invSkillCountV54">0</b></div><div><span>Companions tracked</span><b id="invCompanionCountV743">0</b></div></div>
 <div aria-label="Inventory categories" class="inventory-subtabs-v54" role="tablist">
 <button class="inventory-subtab-v54 active" id="invSubRelicsV54" type="button">Relics</button>
 <button class="inventory-subtab-v54" id="invSubGearV54" type="button">Gear</button>
 <button class="inventory-subtab-v54" id="invSubFantV54" type="button">Fantomons</button>
 <button class="inventory-subtab-v54" id="invSubSkillsV54" type="button">Skills</button>
+<button class="inventory-subtab-v54" id="invSubCompanionsV743" type="button">Companions</button>
 </div>
 <div class="inventory-subpanel-v54 active" id="inventoryRelicsPaneV54"></div>
 <div class="inventory-subpanel-v54" id="inventoryGearPaneV54"></div>
@@ -248,6 +249,15 @@
 <p class="hint">The default view follows the class selected in Current Build. Selecting a class shows that class plus every earlier class in its promotion lineage; for example, <b>Dominator</b> shows Mage, Sage, Arcanist, and Dominator Techniques and Charms. If Current Build has no class selected, all skills are shown. Click any class button to pin that lineage, or click <b>Use Current Build class</b> to return to automatic filtering.</p>
 </article>
 <article class="card table-wrap" style="margin-top:10px"><table class="inventory-table skill-inventory-table-v54"><thead><tr><th>Owned</th><th>Type</th><th>Skill</th><th>Class</th><th>Rank</th></tr></thead><tbody id="skillInventoryBodyV54"></tbody></table></article>
+</div>
+<div class="inventory-subpanel-v54" id="inventoryCompanionsPaneV743">
+<div class="section-head"><div><p class="eyebrow">NPC FRIENDSHIP</p><h2>Companion inventory</h2></div><span class="status-chip" id="companionInventoryStatusV743">0 tracked</span></div>
+<article class="card">
+<div class="catalog-search-row"><label>Search companions<input autocomplete="off" id="companionSearchV743" placeholder="Search name, region, season, or bonus"/></label><label class="check field-check"><input id="companionTrackedOnlyV743" type="checkbox"/> Tracked only</label></div>
+<p class="hint">Mark companions you have unlocked/tracked and enter their current friendship level. NPC friendship bonuses are permanent account stats and are already expected to be present in an imported/displayed character sheet, so this inventory does <b>not</b> add them a second time.</p>
+</article>
+<article class="card table-wrap companion-inventory-v743" style="margin-top:10px"><table class="inventory-table"><thead><tr><th>Track</th><th>Companion</th><th>Area / season</th><th>Friendship Lv</th><th>Stat focus</th><th>Lv 50 grant</th><th>Lv 100 grant</th></tr></thead><tbody id="companionInventoryBodyV743"></tbody></table></article>
+<p class="hint">Source: NPC friendship tables in the datamine. The committed reference exposes exact cumulative grants at Lv 50 and Lv 100. Intermediate per-level curve rows are not shipped in the repository, so exact in-between stat totals are not fabricated. Friendship rank gates are shared across companions: Lv 41+ requires Elite I and Lv 91+ requires Expert III.</p>
 </div>
 <div class="inventory-section">
 <div class="section-head"><div><p class="eyebrow">OWNED ITEMS</p><h2>Gear inventory</h2></div><div class="inline-actions"><button class="btn small" id="addInventoryBtn">+ Add item</button><button class="btn small" id="addCurrentToInventoryBtn">Add current comparison item</button><button class="btn small" id="addAltToInventoryBtn">Add alternative item</button></div></div>
@@ -450,6 +460,13 @@
 </div>
 <div class="section-head"><div><p class="eyebrow">NEXT INVESTMENT</p><h2>What should I upgrade next?</h2></div></div>
 <article class="card"><button class="btn primary" id="runUpgradeNextBtn">Rank upgrade opportunities</button><div id="upgradeNextResult" style="margin-top:14px"></div></article>
+<div class="section-head"><div><p class="eyebrow">COMPANION FRIENDSHIP</p><h2>Who should I befriend / upgrade next?</h2></div><p class="section-note">Uses the companion levels you logged under My Build → Inventory → Companions and ranks source-backed Lv 50 / Lv 100 friendship milestones for your current build goal.</p></div>
+<article class="card companion-strategy-v743">
+<div class="form-grid compact"><label>Goal<select id="companionStrategyObjectiveV743"><option>Balanced combat</option><option>Offense / damage</option><option>Speed / turn order</option><option>Survivability</option><option>PvP balanced</option><option>Support / healing</option><option>Travel rewards</option></select></label><label>Show top<input id="companionStrategyTopV743" min="3" max="25" type="number" value="10"/></label><label class="check field-check"><input checked id="companionStrategyTrackedV743" type="checkbox"/> Only tracked / unlocked companions</label></div>
+<div class="toolbar" style="margin-top:10px"><button class="btn primary" id="runCompanionStrategyV743">Rank companion upgrades</button><button class="btn" id="openCompanionInventoryV743">Open Companion Inventory</button></div>
+<div id="companionStrategyResultV743" style="margin-top:14px"></div>
+<p class="hint">Current friendship bonuses are assumed to already be included in your displayed sheet. This planner compares the next source-visible milestone band: Lv 1–50 uses the Lv 50 cumulative grant; Lv 50–100 uses the exact Lv 100 minus Lv 50 grant. Because intermediate curve rows are absent from the committed repo, the score is a <b>milestone value density</b>, not a fabricated exact next-level gain.</p>
+</article>
 <div class="section-head"><div><p class="eyebrow">COMPLETE LOADOUT</p><h2>Full-build optimizer</h2></div><p class="section-note">Searches your owned gear, Techniques, Charms, and Fantomons together to find strong complete loadouts.</p></div>
 <article class="card">
 <div class="form-grid compact">
@@ -696,5 +713,5 @@ secondary uses the same shape on its own curve.</code></pre><p><span class="sour
 <div class="toast" hidden="" id="toast"></div>
 
 
-<script defer="" src="data/datamine.js"></script><script defer="" src="js/app.js"></script><script src="js/module-loader.js" type="module"></script></body>
+<script defer="" src="data/datamine.js"></script><script defer="" src="data/companions.js"></script><script defer="" src="js/app.js"></script><script src="js/module-loader.js" type="module"></script></body>
 </html>

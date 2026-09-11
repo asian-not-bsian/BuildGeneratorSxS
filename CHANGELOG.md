@@ -1,5 +1,30 @@
 # Changelog
 
+## v7.4.3
+- Added **Companions** to My Build → Inventory with all 58 friendable NPCs from the datamined NPC friendship reference.
+- Companion records persist tracked/unlocked state and current friendship level, keyed by NPC id so duplicate names remain distinct.
+- Added a Strategy → Optimize companion friendship planner for Balanced combat, Offense, Speed, Survivability, PvP, Support/Healing, and Travel goals.
+- Strategy uses the source-visible cumulative Lv 50 and Lv 100 grants, current build-relative flat-stat normalization, square-root SPD scaling, and total friendship requirement as a cost adjustment.
+- Current friendship bonuses are not added to the displayed sheet a second time; imported/displayed stats are treated as already containing permanent NPC bonuses.
+- Intermediate friendship-level stat rows are not fabricated: the planner clearly labels its result as milestone value density because the committed repository does not ship every `level_prop_npc_friendship` row.
+
+## v7.4.2
+- Round screenshot values scaled from `K` or `M` to the nearest whole-number game stat, preventing floating-point artifacts such as `8060.000000000001`.
+- Round displayed elemental Affinity fields to whole numbers when loading a build.
+- Keep the parent navigation layer above interactive menus so parent tabs remain clickable.
+- Retains the v7.4.1 support-Fantomon separation and relic-series row filtering.
+
+## v7.4.1
+
+### Support Fantomons
+- The four support Fantomon slots are now independent of the single Fantomon active in battle.
+- Support slot 1 is labeled as the 100% base-boost slot; support slots 2–4 are the 50% base-boost slots.
+- Support selections remain informational for sheet totals because screenshot-imported stats already contain those boosts, preventing double application.
+
+### Relic inventory
+- Relic Series now filters individual relic entries, not merely whole set cards.
+- Mixed set/standalone groups only show relics belonging to the selected series while the filter is active.
+
 ## v7.3.0
 
 ### Inventory clarity
